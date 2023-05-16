@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("/hr/employees")
 public class EmployeeController {
     private final EmployeeService employeeService;
     @Autowired
@@ -46,4 +46,5 @@ public class EmployeeController {
         employeeService.deleteEmployee(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }
