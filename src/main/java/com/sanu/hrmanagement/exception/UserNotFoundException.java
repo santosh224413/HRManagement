@@ -1,0 +1,8 @@
+package com.sanu.hrmanagement.exception;
+
+public class UserNotFoundException extends RuntimeException{
+    public UserNotFoundException(String message){
+        super(message);
+    }
+
+}
