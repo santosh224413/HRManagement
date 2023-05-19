@@ -4,8 +4,6 @@ import com.sanu.hrmanagement.exception.UserNotFoundException;
 import com.sanu.hrmanagement.model.Employee;
 import com.sanu.hrmanagement.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +23,6 @@ public class EmployeeService {
         employee.setEmployeeCode(UUID.randomUUID().toString());
         return employeeRepository.save(employee);
     }
-
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
@@ -48,20 +45,26 @@ public class EmployeeService {
             if(employee.getPhoneNumber() !=null){
                 existingEmployee.setPhoneNumber(employee.getPhoneNumber());
             }
+            if(employee.getImageURL() !=null){
+                existingEmployee.setImageURL(employee.getImageURL());
+            }
             return employeeRepository.save(existingEmployee);
         } else{
             return null;
         }
     }
-
     public Employee findById(Long id) {
         return employeeRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with the id " + id + "Not found")
         );
     }
-
     public void deleteEmployee(Long id) {
-        employeeRepository.deleteById(id);
-    }
+        boolean exists = employeeRepository.existsById(id);
+        if (!exists) {
+            throw new UserNotFoundException("User with the id " + id + "does not exists");
+        } else {
+            employeeRepository.deleteById(id);
+        }
 
+    }
 
 }
